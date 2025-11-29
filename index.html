@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeShare - Berbagi Kode Programming</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Prism.js untuk syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markup.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/styles.css">
+    
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-code text-blue-600 text-2xl"></i>
+                <a href="index.html" class="text-xl font-bold text-gray-800">CodeShare</a>
+            </div>
+            
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600">Beranda</a>
+                <a href="#" id="create-snippet-link" class="text-gray-600 hover:text-blue-600">Buat Snippet</a>
+                <a href="#" id="profile-link" class="text-gray-600 hover:text-blue-600">Profil</a>
+                <a href="admin.html" id="admin-link" class="text-gray-600 hover:text-blue-600 hidden">Admin</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div id="user-menu" class="hidden">
+                    <div class="flex items-center space-x-2">
+                        <img id="nav-profile-pic" src="https://via.placeholder.com/40" alt="Profile" class="w-8 h-8 rounded-full">
+                        <span id="nav-username" class="text-gray-700"></span>
+                        <button id="logout-btn" class="text-gray-600 hover:text-red-600">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="auth-menu" class="flex space-x-2">
+                    <a href="#" id="login-btn" class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md">Masuk</a>
+                    <a href="#" id="register-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Daftar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Bagikan Kode Programming Anda</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">CodeShare adalah platform untuk berbagi snippet kode, belajar dari programmer lain, dan menemukan solusi untuk masalah programming Anda.</p>
+            
+            <div id="create-snippet-btn-container" class="hidden">
+                <a href="#" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-flex items-center">
+                    <i class="fas fa-plus mr-2"></i> Buat Snippet Baru
+                </a>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="mb-8">
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h2 class="text-lg font-semibold mb-3">Filter Snippet</h2>
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn px-4 py-2 bg-blue-600 text-white rounded-md" data-language="all">Semua</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="javascript">JavaScript</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="python">Python</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="html">HTML</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="css">CSS</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="java">Java</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="csharp">C#</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" data-language="php">PHP</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Snippets List -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6">Snippet Terbaru</h2>
+            <div id="snippets-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Snippets akan dimuat di sini melalui JavaScript -->
+            </div>
+            
+            <div id="no-snippets" class="text-center py-12 hidden">
+                <i class="fas fa-code text-gray-300 text-5xl mb-4"></i>
+                <p class="text-gray-500">Belum ada snippet yang tersedia.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-code text-blue-400 text-xl"></i>
+                        <span class="text-xl font-bold">CodeShare</span>
+                    </div>
+                    <p class="text-gray-400">Platform untuk berbagi dan menemukan snippet kode programming.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Tautan</h3>
+                        <ul class="space-y-2">
+                            <li><a href="index.html" class="text-gray-400 hover:text-white">Beranda</a></li>
+                            <li><a href="#" id="footer-create-snippet" class="text-gray-400 hover:text-white">Buat Snippet</a></li>
+                            <li><a href="#" id="footer-profile" class="text-gray-400 hover:text-white">Profil</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Ketentuan Layanan</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 CodeShare. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Masuk ke CodeShare</h3>
+                <button id="close-login-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-username" class="block text-gray-700 mb-2">Username</label>
+                    <input type="text" id="login-username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="login-password" class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="login-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Masuk</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-gray-600">Belum punya akun? <a href="#" id="switch-to-register" class="text-blue-600 hover:underline">Daftar</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Daftar Akun CodeShare</h3>
+                <button id="close-register-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="register-form">
+                <div class="mb-4">
+                    <label for="register-username" class="block text-gray-700 mb-2">Username</label>
+                    <input type="text" id="register-username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="register-password" class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="register-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Daftar</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-gray-600">Sudah punya akun? <a href="#" id="switch-to-login" class="text-blue-600 hover:underline">Masuk</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Snippet Modal -->
+    <div id="create-snippet-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Buat Snippet Baru</h3>
+                <button id="close-create-snippet-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="create-snippet-form">
+                <div class="mb-4">
+                    <label for="snippet-title" class="block text-gray-700 mb-2">Judul</label>
+                    <input type="text" id="snippet-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="snippet-language" class="block text-gray-700 mb-2">Bahasa</label>
+                    <select id="snippet-language" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                        <option value="php">PHP</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="go">Go</option>
+                        <option value="rust">Rust</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="snippet-code" class="block text-gray-700 mb-2">Kode</label>
+                    <textarea id="snippet-code" rows="10" class="w-full px-3 py-2 border border-gray-300 rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="snippet-description" class="block text-gray-700 mb-2">Deskripsi</label>
+                    <textarea id="snippet-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="snippet-private" class="mr-2">
+                        <label for="snippet-private" class="text-gray-700">Private (hanya Anda yang bisa melihat)</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Buat Snippet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/db.js"></script>
+    <script src="assets/auth.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/highlight.js"></script>
+</body>
+</html>
