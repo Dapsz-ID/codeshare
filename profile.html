@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - CodeShare</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Prism.js untuk syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markup.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/styles.css">
+    
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-code text-blue-600 text-2xl"></i>
+                <a href="index.html" class="text-xl font-bold text-gray-800">CodeShare</a>
+            </div>
+            
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600">Beranda</a>
+                <a href="#" id="create-snippet-link" class="text-gray-600 hover:text-blue-600">Buat Snippet</a>
+                <a href="#" id="profile-link" class="text-blue-600 font-semibold">Profil</a>
+                <a href="admin.html" id="admin-link" class="text-gray-600 hover:text-blue-600 hidden">Admin</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div id="user-menu" class="hidden">
+                    <div class="flex items-center space-x-2">
+                        <img id="nav-profile-pic" src="https://via.placeholder.com/40" alt="Profile" class="w-8 h-8 rounded-full">
+                        <span id="nav-username" class="text-gray-700"></span>
+                        <button id="logout-btn" class="text-gray-600 hover:text-red-600">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="auth-menu" class="flex space-x-2">
+                    <a href="#" id="login-btn" class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md">Masuk</a>
+                    <a href="#" id="register-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Daftar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="mb-4 md:mb-0 md:mr-6">
+                    <img id="profile-pic" src="https://via.placeholder.com/150" alt="Profile" class="w-32 h-32 rounded-full border-4 border-white shadow-md">
+                </div>
+                
+                <div class="text-center md:text-left flex-1">
+                    <div class="flex items-center justify-center md:justify-start mb-2">
+                        <h1 id="profile-username" class="text-2xl font-bold mr-2"></h1>
+                        <span id="verified-badge" class="hidden text-blue-500" title="Verified User">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    </div>
+                    
+                    <p id="profile-bio" class="text-gray-600 mb-4"></p>
+                    
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 mb-4">
+                        <div class="text-center">
+                            <p id="profile-snippets-count" class="text-xl font-bold">0</p>
+                            <p class="text-gray-600 text-sm">Snippet</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p id="profile-followers-count" class="text-xl font-bold">0</p>
+                            <p class="text-gray-600 text-sm">Pengikut</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p id="profile-following-count" class="text-xl font-bold">0</p>
+                            <p class="text-gray-600 text-sm">Mengikuti</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p id="profile-likes-count" class="text-xl font-bold">0</p>
+                            <p class="text-gray-600 text-sm">Likes</p>
+                        </div>
+                    </div>
+                    
+                    <div id="profile-actions" class="flex flex-wrap justify-center md:justify-start gap-2">
+                        <a href="settings.html" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <i class="fas fa-cog mr-2"></i> Pengaturan
+                        </a>
+                        <button id="follow-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden">
+                            <i class="fas fa-user-plus mr-2"></i> Ikuti
+                        </button>
+                        <button id="unfollow-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden">
+                            <i class="fas fa-user-check mr-2"></i> Berhenti Ikuti
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Not Found -->
+        <div id="profile-not-found" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 hidden">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-red-500"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-red-700">
+                        Pengguna tidak ditemukan.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div id="profile-content" class="hidden">
+            <!-- Tabs -->
+            <div class="bg-white rounded-lg shadow-md mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex -mb-px">
+                        <button class="tab-btn py-4 px-6 text-center border-b-2 border-blue-500 font-medium text-blue-600" data-tab="snippets">
+                            Snippet
+                        </button>
+                        <button class="tab-btn py-4 px-6 text-center border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="liked">
+                            Disukai
+                        </button>
+                        <button class="tab-btn py-4 px-6 text-center border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="followers">
+                            Pengikut
+                        </button>
+                        <button class="tab-btn py-4 px-6 text-center border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="following">
+                            Mengikuti
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-6">
+                    <!-- Snippets Tab -->
+                    <div id="snippets-tab" class="tab-content">
+                        <h2 class="text-xl font-bold mb-4">Snippet</h2>
+                        
+                        <div id="user-snippets-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- User snippets will be loaded here -->
+                        </div>
+                        
+                        <div id="no-user-snippets" class="text-center py-8 hidden">
+                            <i class="fas fa-code text-gray-300 text-4xl mb-3"></i>
+                            <p class="text-gray-500">Pengguna ini belum memiliki snippet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Liked Tab -->
+                    <div id="liked-tab" class="tab-content hidden">
+                        <h2 class="text-xl font-bold mb-4">Snippet yang Disukai</h2>
+                        
+                        <div id="user-liked-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- User liked snippets will be loaded here -->
+                        </div>
+                        
+                        <div id="no-user-liked" class="text-center py-8 hidden">
+                            <i class="fas fa-heart text-gray-300 text-4xl mb-3"></i>
+                            <p class="text-gray-500">Pengguna ini belum menyukai snippet apa pun.</p>
+                        </div>
+                    </div>
+
+                    <!-- Followers Tab -->
+                    <div id="followers-tab" class="tab-content hidden">
+                        <h2 class="text-xl font-bold mb-4">Pengikut</h2>
+                        
+                        <div id="user-followers-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- User followers will be loaded here -->
+                        </div>
+                        
+                        <div id="no-user-followers" class="text-center py-8 hidden">
+                            <i class="fas fa-users text-gray-300 text-4xl mb-3"></i>
+                            <p class="text-gray-500">Pengguna ini belum memiliki pengikut.</p>
+                        </div>
+                    </div>
+
+                    <!-- Following Tab -->
+                    <div id="following-tab" class="tab-content hidden">
+                        <h2 class="text-xl font-bold mb-4">Mengikuti</h2>
+                        
+                        <div id="user-following-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- User following will be loaded here -->
+                        </div>
+                        
+                        <div id="no-user-following" class="text-center py-8 hidden">
+                            <i class="fas fa-user-friends text-gray-300 text-4xl mb-3"></i>
+                            <p class="text-gray-500">Pengguna ini belum mengikuti siapa pun.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-code text-blue-400 text-xl"></i>
+                        <span class="text-xl font-bold">CodeShare</span>
+                    </div>
+                    <p class="text-gray-400">Platform untuk berbagi dan menemukan snippet kode programming.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Tautan</h3>
+                        <ul class="space-y-2">
+                            <li><a href="index.html" class="text-gray-400 hover:text-white">Beranda</a></li>
+                            <li><a href="#" id="footer-create-snippet" class="text-gray-400 hover:text-white">Buat Snippet</a></li>
+                            <li><a href="#" id="footer-profile" class="text-gray-400 hover:text-white">Profil</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Ketentuan Layanan</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 CodeShare. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/db.js"></script>
+    <script src="assets/auth.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/highlight.js"></script>
+</body>
+</html>
